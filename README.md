@@ -1,4 +1,5 @@
-# iFlorestal
+# API PARA CÁLCULO DE AMOSTRAGEM EM INVENTÁRIO FLORESTAL
+
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://"claitonnardini".github.io/iFlorestal.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://"claitonnardini".github.io/iFlorestal.jl/dev)
