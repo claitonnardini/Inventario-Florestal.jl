@@ -1,5 +1,6 @@
 # API PARA CÁLCULO DE AMOSTRAGEM EM INVENTÁRIO FLORESTAL
 
+Criado para usar em cálculos de invéntario florestal em função dos diferentes tipos de processos de amostragem existentes.
 
 [![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://"claitonnardini".github.io/iFlorestal.jl/stable)
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://"claitonnardini".github.io/iFlorestal.jl/dev)
