@@ -1,3 +1,6 @@
+Copyright (c) 2021: Claiton Nardini
+
+
 Mozilla Public License Version 2.0
 ==================================
 
