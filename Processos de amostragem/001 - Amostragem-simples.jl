@@ -86,7 +86,7 @@ ________________________________________________________________________________
 
 #Processamento do inventário
 #Importar dados
-Dados = CSV.read("F:/Version_09_07_21/amostragem_simples.csv", DataFrame) 
+Dados = CSV.read("F:/Version_09_07_21/aas.csv", DataFrame) 
 #Informações necessárias
 #Área da população
 const Área = 45
