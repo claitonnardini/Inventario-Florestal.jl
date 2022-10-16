@@ -1,5 +1,3 @@
-#Linguagem Julia verson v.1.5.3
-#Modificado: 20/12/2021
 #Inventário Florestal🌳
 #Amostragem independente
 _________________________________________________________________________________________________________________________________________
@@ -174,11 +172,11 @@ function Independente(n, Ocasiao_1, Ocasiao_2) #Determina a função
     (1-(length(Ocasião_1)/N1)))+(((sum((Ocasião_2.-(mean(Ocasião_2))).^2)/length(Ocasião_2)-1)/(length(Ocasião_2)))*
     (1-((length(Ocasião_2))/N2)))), (((sum((Ocasião_1.-mean(Ocasião_1)).^2)/length(Ocasião_1)-1)/length(Ocasião_1))*(1-(length(Ocasião_1)/N1)))+
     (((sum((Ocasião_2.-(mean(Ocasião_2))).^2)/length(Ocasião_2)-1)/(length(Ocasião_2)))*(1-((length(Ocasião_2))/N2)))]) #Tabela de resultados  
-    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/07.xlsx"), Dados=(collect(DataFrames.eachcol(Independente)), DataFrames.names(Independente)), 
-        Primeira_ocasião=(collect(DataFrames.eachcol(Primeira_ocasião)), DataFrames.names(Primeira_ocasião)), 
-        Segunda_ocasião=(collect(DataFrames.eachcol(Segunda_ocasião)), DataFrames.names(Segunda_ocasião)), 
-        Crescimento_ou_mudança=(collect(DataFrames.eachcol(Mudança_crescimento)), 
-        DataFrames.names(Mudança_crescimento))) #Exportar para o Excel
+    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/07.xlsx"), Dados=(collect(DataFrames.eachcol(Independente)), 
+    DataFrames.names(Independente)), Primeira_ocasião=(collect(DataFrames.eachcol(Primeira_ocasião)), 
+    DataFrames.names(Primeira_ocasião)), Segunda_ocasião=(collect(DataFrames.eachcol(Segunda_ocasião)), 
+    DataFrames.names(Segunda_ocasião)), Crescimento_ou_mudança=(collect(DataFrames.eachcol(Mudança_crescimento)),   
+    DataFrames.names(Mudança_crescimento))) #Exportar para o Excel
 end
 _________________________________________________________________________________________________________________________________________
 
