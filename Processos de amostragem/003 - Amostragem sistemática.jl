@@ -1,5 +1,3 @@
-#Linguagem Julia verson v.1.5.3
-#Modificado: 16/12/2021
 #Inventário Florestal🌳
 #Amostragem sistemática
 _________________________________________________________________________________________________________________________________________
@@ -16,7 +14,7 @@ function Sistematica(Dados) #Determinar função
     nj=first(unique((Tabela.n))) #Número de unidades
     n=(length(Tabela.n)*first(unique((Tabela.n)))) #Número de unidades amostrais totais
     (quantile(TDist(n-1), 1-alpha/2)) #Valor de t
-    (1-((length(Tabela.n)*first(unique((Tabela.n))))/N)) #Fração da amostragem 
+    (1-((length(Tabela.n)*first(unique((Tabela.n))))/N)) #Fator de correção
     if (1-((length(Tabela.n)*first(unique((Tabela.n))))/N)) ≥ 0.98 #f maior ou igual a 0,98 população infinita
         População = "é considerada infinita"   
             println(População)
@@ -68,7 +66,7 @@ function Sistematica(Dados) #Determinar função
     Resultados = DataFrames.DataFrame(Variáveis=["Média (m³/ha)", "Limite inferior do intervalo de confiança para média (m³/ha)", 
     "Limite superior do intervalo de confiança para média (m³/ha)", "Total da população (m³)", "Limite inferior do intervalo de confiança para o total (m³)", 
     "Limite superior do intervalo de confiança para o total (m³)", "Área da população (ha)", "Erro da amostragem relativo (%)", 
-    "Erro padrão absoluto (m³/ha)", "Erro padrão da média (m³/ha)", "Variância da média (m³/ha)²", "Fração da amostragem", "População", 
+    "Erro padrão absoluto (m³/ha)", "Erro padrão da média (m³/ha)", "Variância da média (m³/ha)²", "Fator de correção", "População", 
     "Unidades amostrais possíveis", "Número de unidades amostrais totais", "Número de unidades do inventário florestal", 
     "Número de faixas do inventário florestal",  "Nível de significância (α)", "Observação"], 
     Valores=[mean(Tabela.Média), mean(Tabela.Média)-((quantile(TDist((length(Tabela.n)*first(unique((Tabela.n))))-1), 
@@ -79,9 +77,9 @@ function Sistematica(Dados) #Determinar função
     1-alpha/2))*sqrt(Sx²))/mean(Tabela.Média))*1000, ((quantile(TDist((length(Tabela.n)*first(unique((Tabela.n))))-1), 1-alpha/2))*sqrt(Sx²)), 
     sqrt(Sx²), Sx², (1-((length(Tabela.n)*first(unique((Tabela.n))))/N)), População, N, (length(Tabela.n)*first(unique((Tabela.n)))), 
     first(unique((Tabela.n))), length(Tabela.n), alpha, Observação]) #Tabela de resultados
-    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/03.xlsx"), Dados=( collect(DataFrames.eachcol(Conjunto_de_dados)), DataFrames.names(Conjunto_de_dados)), 
-        Analise_descritiva=( collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)), 
-        Resultados=( collect(DataFrames.eachcol(Resultados)), DataFrames.names(Resultados))) #Exportar para o Excel
+    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/03.xlsx"), Dados=( collect(DataFrames.eachcol(Conjunto_de_dados)), 
+        DataFrames.names(Conjunto_de_dados)), Analise_descritiva=( collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)),  
+    Resultados=( collect(DataFrames.eachcol(Resultados)), DataFrames.names(Resultados))) #Exportar para o Excel
 end 
 ________________________________________________________________________________________________________________________________________
 
