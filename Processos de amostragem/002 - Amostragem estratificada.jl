@@ -1,5 +1,3 @@
-#Linguagem Julia verson v.1.5.3
-#Modificado: 16/12/2021
 #Inventário Florestal🌳
 #Amostragem estratificada
 _________________________________________________________________________________________________________________________________________
@@ -41,7 +39,7 @@ function Estratificada(Estrato, Unidade, Volume) #Determina a função
     sqrt(mean(Tabela.Variância)) #Desvio padrão estratificado
     #Análise de Variância da estratificação 
     length(unique(Estrato))-1 #Grau de liberdade entre os estratos
-    length(Unidade)-length(unique(Estrato)) #Grau de liberdade dentro dos estratos.
+    length(Unidade)-length(unique(Estrato)) #Grau de liberdade dentro dos estratos
     length(Unidade)-1 #Grau de liberdade total
     sum(Tabela.Unidade.*(Tabela.Média.-mean(Volume)).^2)
     sum((Volume.-mean(Volume)).^2)
@@ -72,11 +70,10 @@ function Estratificada(Estrato, Unidade, Volume) #Determina a função
     (round((area/(length(Unidade)))*nh3)*10)/N*Tabela.Variância))
     (sum(((round((area/(length(Unidade)))*nh1)*10)/N; (round((area/(length(Unidade)))*nh2)*10)/N; 
     (round((area/(length(Unidade)))*nh3)*10)/N*Tabela.Variância))/N)
-    #Intensidade da amostragem
+    #Tamanho da amostra
     (0.1*mean(Volume)) #Limite de erro da amostragem requerido
     t=quantile(TDist(length(Unidade)-1),1-alpha/2) #Valor de t 
-    (1-(length(Unidade)/N)) #Fração de amostragem
-
+    (1-(length(Unidade)/N)) #Fator de correção
     if (1-(length(Unidade)/N)) ≥ 0.98 #f maior ou igual a 0,98 população infinita
         População = "é considerada infinita"   
             println(População)
@@ -84,26 +81,26 @@ function Estratificada(Estrato, Unidade, Volume) #Determina a função
         População = "é considerada finita"    
             println(População)
             end
-    Intensidade = if (1-(length(Unidade)/N)) ≥ 0.98
-    #População infinita. A intensidade de amostragem é calculada pela seguinte equação:
-    int_infinita=(((t)^2)*sum(((round((area/(length(Unidade)))*nh1)*10)/N; 
+    Tamanho_da_amostra = if (1-(length(Unidade)/N)) ≥ 0.98
+    #População infinita. O tamanho da amostra é calculado pela seguinte equação:
+    Infinita=(((t)^2)*sum(((round((area/(length(Unidade)))*nh1)*10)/N; 
     (round((area/(length(Unidade)))*nh2)*10)/N; 
     (round((area/(length(Unidade)))*nh3)*10)/N*Tabela.Variância)))/(((0.1*mean(Volume)))^2)
-    round(int_infinita)
+    round(Infinita)
     elseif (1-(length(Unidade)/N)) < 0.98
-    #População finita. A intensidade de amostragem é calculada pela seguinte equação:
-    int_finita=(((t)^2)*sum(((round((area/(length(Unidade)))*nh1)*10)/N; 
+    #População finita. O tamanho da amostra é calculado pela seguinte equação:
+    Finita=(((t)^2)*sum(((round((area/(length(Unidade)))*nh1)*10)/N; 
     (round((area/(length(Unidade)))*nh2)*10)/N; 
     (round((area/(length(Unidade)))*nh3)*10)/N*Tabela.Variância)))/
     (((0.1*mean(Volume)))^2)+((t)^2)*(sum(((round((area/(length(Unidade)))*nh1)*10)/N; 
     (round((area/(length(Unidade)))*nh2)*10)/N; 
     (round((area/(length(Unidade)))*nh3)*10)/N*Tabela.Variância))/N)
-    round(int_finita)
+    round(Finita)
     end
-    #Dados necessários para calcular a intensidade da amostra em amostragem estratificada
-    (round((area/(length(Unidade)))*nh1)*10)/N*(round(int_finita))
-    (round((area/(length(Unidade)))*nh2)*10)/N*(round(int_finita))
-    (round((area/(length(Unidade)))*nh3)*10)/N*(round(int_finita))
+    #Dados necessários para calcular o tamanho da amostra em amostragem estratificada
+    (round((area/(length(Unidade)))*nh1)*10)/N*(round(Finita))
+    (round((area/(length(Unidade)))*nh2)*10)/N*(round(Finita))
+    (round((area/(length(Unidade)))*nh3)*10)/N*(round(Finita))
     #Variância em cada estrato
     ((((round((area/(length(Unidade)))*nh1)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade))
     ((((round((area/(length(Unidade)))*nh2)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade))
@@ -177,6 +174,7 @@ function Estratificada(Estrato, Unidade, Volume) #Determina a função
     (round((area/(length(Unidade)))*nh2)*10)/N; 
     (round((area/(length(Unidade)))*nh3)*10)/
     N*Tabela.Variância))/N))))/Conversor) #Superior
+
     if (((t*sqrt(((((((round((area/(length(Unidade)))*nh1)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade))+
         ((((round((area/(length(Unidade)))*nh2)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade))+
         ((((round((area/(length(Unidade)))*nh3)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade)))/
@@ -201,9 +199,9 @@ function Estratificada(Estrato, Unidade, Volume) #Determina a função
     "Limite inferior do intervalo de confiança para o total (m³)", "Limite superior do intervalo de confiança para o total (m³)", "Área da população (ha)",
     "Erro da amostragem relativo (%)", "Erro da amostragem absoluto (m³/ha)", "Erro padrão (m³/ha)", "Desvio padrão (m³/ha)", 
     "Variância estrato I (m³/ha)²", "Variância estrato II (m³/ha)²", "Variância estrato III (m³/ha)²", "Variância estratificada (m³/ha)²", 
-    "Variância da média relativa (%)", "Limite de erro da amostragem requerido", "Fração de amostragem", 
-    "Intensidade de amostragem estrato I", "Intensidade de amostragem estrato II", "Intensidade de amostragem estrato III", 
-    "Intensidade de amostragem", "População", "Observação"], Valores=[mean(Volume), (mean(Volume)-(t*sqrt(((((((round((area/(length(Unidade)))*nh1)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade))+
+    "Variância da média relativa (%)", "Fator de correção", "Limite de erro da amostragem requerido", 
+    "Tamanho da amostra estrato I", "Tamanho da amostra estrato II", "Tamanho da amostra estrato III", 
+    "Tamanho da amostra", "População", "Observação"], Valores=[mean(Volume), (mean(Volume)-(t*sqrt(((((((round((area/(length(Unidade)))*nh1)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade))+
     ((((round((area/(length(Unidade)))*nh2)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade))+
     ((((round((area/(length(Unidade)))*nh3)*10)/N)^2)*sum(Tabela.Variância/Tabela.Unidade)))/
     length(unique(Estrato)))-(sum(((round((area/(length(Unidade)))*nh1)*10)/N; 
@@ -255,16 +253,16 @@ function Estratificada(Estrato, Unidade, Volume) #Determina a função
     length(unique(Estrato)))-(sum(((round((area/(length(Unidade)))*nh1)*10)/N; 
     (round((area/(length(Unidade)))*nh2)*10)/N; 
     (round((area/(length(Unidade)))*nh3)*10)/N*Tabela.Variância))/N), (1-(length(Unidade)/N)), (0.1*mean(Volume)), 
-    (round((area/(length(Unidade)))*nh1)*10)/N*(round(int_finita)), 
-    (round((area/(length(Unidade)))*nh2)*10)/N*(round(int_finita)), 
-    (round((area/(length(Unidade)))*nh3)*10)/N*(round(int_finita)), Intensidade, População, Observação]) #Tabela de resultados    
-    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/02.xlsx"), Dados=(collect(DataFrames.eachcol(Dados)), DataFrames.names(Dados)),
-        Informações_do_inventário=(collect(DataFrames.eachcol(Informações_do_inventário)), DataFrames.names(Informações_do_inventário)), 
-        Por_estrato=(collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)),  
-        Anova_da_estratificação=(collect(DataFrames.eachcol(Anova_da_estratificação)), 
-        DataFrames.names(Anova_da_estratificação)), Resultados=( collect(DataFrames.eachcol(Resultados)), 
-        DataFrames.names(Resultados))) #Export to Excel
-
+    (round((area/(length(Unidade)))*nh1)*10)/N*(round(Finita)), 
+    (round((area/(length(Unidade)))*nh2)*10)/N*(round(Finita)), 
+    (round((area/(length(Unidade)))*nh3)*10)/N*(round(Finita)), Tamanho_da_amostra, População, Observação]) #Tabela de resultados    
+   
+    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/02.xlsx"), Dados=(collect(DataFrames.eachcol(Dados)), 
+       DataFrames.names(Dados)), Informações_do_inventário=(collect(DataFrames.eachcol(Informações_do_inventário)), 
+       DataFrames.names(Informações_do_inventário)), Por_estrato=(collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)),  
+       Anova_da_estratificação=(collect(DataFrames.eachcol(Anova_da_estratificação)), 
+       DataFrames.names(Anova_da_estratificação)), Resultados=( collect(DataFrames.eachcol(Resultados)), 
+       DataFrames.names(Resultados))) #Export to Excel
 end
 ________________________________________________________________________________________________________________________________________
 
@@ -288,6 +286,5 @@ Conversor=1/Área_da_parcela
 const nh1=7 #estrato I
 const nh2=8 #estrato II
 const nh3=7 #estrato III
-
 #Estratificada(Estrato, Unidade, Volume)
 Estratificada(Dados.Estrato, Dados.Unidade, Dados.Volume) #Saída dos dados
