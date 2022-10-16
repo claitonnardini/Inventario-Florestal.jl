@@ -1,5 +1,3 @@
-#Linguagem Julia verson v.1.5.3
-#Modificado: 21/12/2021
 #Inventário Florestal🌳
 #Amostragem dupla
 _________________________________________________________________________________________________________________________________________
@@ -78,7 +76,7 @@ function AD(n, Ocasiao_1, Ocasiao_2) #Determina a função
     (((((quantile(TDist((length(Unidades))-1),1-alpha/2)))^2)*(sum((Ocasião_1.-((((length(Unidades)-
     (length(unique(Ocasião_2))))/(length(Unidades))*Xu)+
     ((length(unique(Ocasião_2)))/length(Unidades))*Xm))).^2)/
-    ((length(Unidades))-1)))/N)) #Intensidade de amostragem
+    ((length(Unidades))-1)))/N)) #Tamanho da amostra
     #Erro de amostragem
     ((quantile(TDist((length(Unidades))-1),1-alpha/2))*(sqrt(((sum((Ocasião_1.-(((length(Unidades)-
     (length(unique(Ocasião_2))))/(length(Unidades))*Xu)+
@@ -117,7 +115,7 @@ function AD(n, Ocasiao_1, Ocasiao_2) #Determina a função
     "Área da população (ha)", "Erro da amostragem relativo (%)", "Erro da amostragem absoluto (m³/ha)", "Erro padrão (m³/ha)", 
     "Desvio padrão das unidades amostrais totais (m³/ha)", "Desvio padrão das unidades amostrais temporárias (m³/ha)", "Desvio padrão das unidades amostrais permanentes (m³/ha)", 
     "Variância das unidades amostrais totais (m³/ha)²", "Variância das unidades amostrais temporárias (m³/ha)²", "Variância das unidades amostrais permanentes (m³/ha)²", 
-    "Variância da média (m³/ha)²", "Limite do erro de amostragem requerido", "Intensidade da amostragem", "Número total de unidades amostradas", 
+    "Variância da média (m³/ha)²", "Limite do erro de amostragem requerido", "Tamanho da amostra", "Número total de unidades amostradas", 
     "Unidades temporárias", "Unidades permanentes", "Proporção ótima da subamostra temporária e substituída na segunda ocasião", 
     "Proporção ótima da subamostra permanente e remedida na segunda ocasião", "Nível de de significância (α)"], Valores=[(((length(Unidades)-(length(unique(Ocasião_2))))/(length(Unidades))*Xu)+
     ((length(unique(Ocasião_2)))/length(Unidades))*Xm), Xu, Xm, ((((length(Unidades)-(length(unique(Ocasião_2))))/(length(Unidades))*Xu)+
@@ -205,7 +203,7 @@ function AD(n, Ocasiao_1, Ocasiao_2) #Determina a função
     (length(unique(Ocasião_2)))))).^2)/((length(unique(Ocasião_2))-1)))))))*
     ((sqrt(sum((skipmissing((Ocasião_2.-(sum(skipmissing(Ocasião_2))/(length(unique(Ocasião_2)))))).^2)/
     ((length(unique(Ocasião_2))-1)))))/Sxm))*(((((length(Unidades)-(length(unique(Ocasião_2))))/(length(Unidades))*Xu)+
-    ((length(unique(Ocasião_2)))/length(Unidades))*Xm))-Xm)))))^2)) #Intenssidade de amostragem
+    ((length(unique(Ocasião_2)))/length(Unidades))*Xm))-Xm)))))^2)) #Tamanho da amostra
     #Erro da amostragem
     (quantile(TDist((length(unique(Ocasião_2)))-1),1-alpha/2))*
     (sqrt((Syx²/(length(unique(Ocasião_2)))+(((sum((skipmissing((Ocasião_2.-(sum(skipmissing(Ocasião_2))/
@@ -267,7 +265,7 @@ function AD(n, Ocasiao_1, Ocasiao_2) #Determina a função
     "Limite inferior do intervalo de confiança para o total (m³)", "Limite superior do intervalo de confiança para o total (m³)", 
     "Área da população (ha)", "Erro da amostragem relativo (%)","Erro da amostragem absoluto (m³/ha)", "Erro padrão (m³/ha)", "Desvio padrão (m³/ha)", 
     "Variância (m³/ha)²", "Variância da regressão (m³/ha)²", "Variância da média (m³/ha)²", "Limite do erro de amostragem requerido", 
-    "Intensidade da amostragem", "Número total de unidades amostradas", "Nível de significância (α)"], Valores=[sum(skipmissing(Ocasião_2))/(length(unique(Ocasião_2))), 
+    "Tamanho da amostra", "Número total de unidades amostradas", "Nível de significância (α)"], Valores=[sum(skipmissing(Ocasião_2))/(length(unique(Ocasião_2))), 
     (sum(skipmissing(Ocasião_2))/(length(unique(Ocasião_2))))+((Sxy/(sqrt(Sxm²*(sum((skipmissing((Ocasião_2.-(sum(skipmissing(Ocasião_2))/
     (length(unique(Ocasião_2)))))).^2)/((length(unique(Ocasião_2))-1)))))))*((sqrt(sum((skipmissing((Ocasião_2.-(sum(skipmissing(Ocasião_2))/(length(unique(Ocasião_2)))))).^2)/
     ((length(unique(Ocasião_2))-1)))))/Sxm))*(((((length(Unidades)-(length(unique(Ocasião_2))))/(length(Unidades))*Xu)+((length(unique(Ocasião_2)))/length(Unidades))*Xm))-Xm), 
@@ -547,11 +545,11 @@ function AD(n, Ocasiao_1, Ocasiao_2) #Determina a função
     ((length(unique(Ocasião_2))-1)))))))-2))/(((Sxy/(sqrt(Sxm²*(sum((skipmissing((Ocasião_2.-(sum(skipmissing(Ocasião_2))/
     (length(unique(Ocasião_2)))))).^2)/((length(unique(Ocasião_2))-1))))))))^2)))/(length(Unidades)))+
     (Syx²/(length(unique(Ocasião_2))))]) #Tabela de resultados
-    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/09.xlsx"), Dados=(collect(DataFrames.eachcol(Dados)), DataFrames.names(Dados)), 
-        Primeira_ocasião=(collect(DataFrames.eachcol(Primeira_ocasião)), DataFrames.names(Primeira_ocasião)), 
-        Segunda_ocasião=(collect(DataFrames.eachcol(Segunda_ocasião)), DataFrames.names(Segunda_ocasião)), 
-        Crescimento_ou_mudança=(collect(DataFrames.eachcol(Mudança_crescimento)), 
-        DataFrames.names(Mudança_crescimento))) #Exportar para o Excel
+    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/09.xlsx"), Dados=(collect(DataFrames.eachcol(Dados)), 
+    DataFrames.names(Dados)), Primeira_ocasião=(collect(DataFrames.eachcol(Primeira_ocasião)), 
+    DataFrames.names(Primeira_ocasião)), Segunda_ocasião=(collect(DataFrames.eachcol(Segunda_ocasião)), 
+    DataFrames.names(Segunda_ocasião)), Crescimento_ou_mudança=(collect(DataFrames.eachcol(Mudança_crescimento)), 
+    DataFrames.names(Mudança_crescimento))) #Exportar para o Excel
 end
 _________________________________________________________________________________________________________________________________________
 
@@ -560,7 +558,7 @@ ________________________________________________________________________________
 Dados = CSV.read("F:/Version_09_07_21/AD.csv", DataFrame) 
 #Informações necessárias
 #Área da população
-const N =500
+const N = 500
 #Nível de significância (α)
 const alpha = 0.05
 #Unidade de medida da variável
