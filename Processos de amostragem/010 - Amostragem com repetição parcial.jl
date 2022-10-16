@@ -1,5 +1,3 @@
-#Linguagem Julia verson v.1.5.3
-#Modificado: 21/12/2021
 #Inventário Florestal🌳
 #Amostragem com repetição parcial
 _________________________________________________________________________________________________________________________________________
@@ -611,12 +609,10 @@ function ARP(Unidade, Subamostra, Ocasiao_1, Ocasiao_2) #Determina a função
     (length(unique(skipmissing(Ocasião_1)))))*((sum(D.*J)/(((length(Unidades))-(length(unique(skipmissing(Ocasião_1)))))-1))/
     (sqrt(Sxm²)*sqrt(Sym²)))^2)))), A, B, b, c]) #Tabela de resultados
     XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/10.xlsx"), Dados=(collect(DataFrames.eachcol(ARP)), DataFrames.names(ARP)), 
-        Informações_do_inventário=(collect(DataFrames.eachcol(Informações_do_inventário)), 
-        DataFrames.names(Informações_do_inventário)), Primeira_ocasião=(collect(DataFrames.eachcol(Primeira_ocasião)), 
-        DataFrames.names(Primeira_ocasião)), Segunda_ocasião=(collect(DataFrames.eachcol(Segunda_ocasião)), 
-        DataFrames.names(Segunda_ocasião)), Crescimento_ou_mudança=(collect(DataFrames.eachcol(Mudança_crescimento)), 
-        DataFrames.names(Mudança_crescimento))) #Exportar para o Excel
-        
+    Informações_do_inventário=(collect(DataFrames.eachcol(Informações_do_inventário)), DataFrames.names(Informações_do_inventário)), 
+    Primeira_ocasião=(collect(DataFrames.eachcol(Primeira_ocasião)), DataFrames.names(Primeira_ocasião)), 
+    Segunda_ocasião=(collect(DataFrames.eachcol(Segunda_ocasião)), DataFrames.names(Segunda_ocasião)), 
+    Crescimento_ou_mudança=(collect(DataFrames.eachcol(Mudança_crescimento)), DataFrames.names(Mudança_crescimento))) #Exportar para o Excel
 end 
 _________________________________________________________________________________________________________________________________________
 
@@ -625,7 +621,7 @@ ________________________________________________________________________________
 Dados = CSV.read("F:/Version_09_07_21/ARP.csv", DataFrame) 
 #Informações necessárias
 #Área da população
-const N =1582
+const N = 1582
 #Nível de significância (α)
 const alpha = 0.05
 #Unidade de medida da variável
