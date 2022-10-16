@@ -1,5 +1,3 @@
-#Linguagem Julia verson v.1.5.3
-#Modificado: 17/11/2021
 #Inventário Florestal🌳
 #Amostragem em dois estágios 
 _________________________________________________________________________________________________________________________________________
@@ -8,9 +6,7 @@ using DataFrames, Statistics, Distributions, CSV, XLSX #Habilitar pacotes
 _________________________________________________________________________________________________________________________________________
 
 #Função Dois_estagios: amostragem em dois estágios
-
 function Dois_estagios(Dados) #Determina a função
-
     Conjunto_de_dados = (Conversor.*Dados)
     #Tabela com estatítica descritiva por unidade secundária/bloco
     Tabela=transform(Conjunto_de_dados, AsTable(:) .=> ByRow.([I -> count(!ismissing, I), sum, mean, var]).=>[:n, :Soma, :Média, :Variância])
@@ -18,16 +14,16 @@ function Dois_estagios(Dados) #Determina a função
     first(unique(Tabela.n)) #Número de unidades secundárias
     (sum(Tabela.Média)/length(Tabela.n)) #Média
     sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1))
-    sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1)) #Variância dentro das unidades
+    sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1))/Conversor #Variância dentro das unidades
     sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/(length(Tabela.n)-1)
     (sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
     (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
-    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n)) #Variância entre unidades
-    (sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
+    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/Conversor #Variância entre unidades
+    ((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
     (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
-    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))+sum(Tabela.Variância*(first(unique(Tabela.n))-1))/
-    (length(Tabela.n)*(first(unique(Tabela.n))-1)) #Variância
-    1-(length(Tabela.n)/N) #Fração da amostragem
+    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/Conversor)+
+    (sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1))/Conversor) #Estimativa da variância 
+        1-(length(Tabela.n)/N) #Fator de correção
     (0.1*(sum(Tabela.Média)/length(Tabela.n))) #Limite de erro da amostragem requerido
     quantile(TDist((length(Tabela.n))-1),1-alpha/2) #Valor de t 
 
@@ -39,18 +35,18 @@ function Dois_estagios(Dados) #Determina a função
             println(População)
             end
     
-    Intensidade = if 1-(length(Tabela.n)/N) ≥ 0.98
-         #População infinita. A intensidade de amostragem é calculada pela seguinte equação:
-         int_infinita=((quantile(TDist(length(Tabela.n)-1),1-alpha/2))^2)*((sum(first(unique(Tabela.n))*
+    Tamanho_da_amostra = if 1-(length(Tabela.n)/N) ≥ 0.98
+         #População infinita. O tamanho da amostra é calculado pela seguinte equação:
+         Infinita=((quantile(TDist(length(Tabela.n)-1),1-alpha/2))^2)*((sum(first(unique(Tabela.n))*
         (Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
         (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
         (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))+(sum(Tabela.Variância*(first(unique(Tabela.n))-1))/
         (length(Tabela.n)*(first(unique(Tabela.n))-1))/first(unique(Tabela.n))))/
         (((0.1*(sum(Tabela.Média)/length(Tabela.n))))^2)
-        round(int_infinita)
+        round(Infinita)
     elseif 1-(length(Tabela.n)/N) < 0.98
-         #População finita. A intensidade de amostragem é calculada pela seguinte equação:
-         int_finita=((quantile(TDist(length(Tabela.n)-1),1-alpha/2))^2)*((sum(first(unique(Tabela.n))*
+         #População finita. O tamanho da amaostra é calculado pela seguinte equação:
+         Finita=((quantile(TDist(length(Tabela.n)-1),1-alpha/2))^2)*((sum(first(unique(Tabela.n))*
         (Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
         (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
         (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))+(sum(Tabela.Variância*(first(unique(Tabela.n))-1))/
@@ -60,13 +56,13 @@ function Dois_estagios(Dados) #Determina a função
         ((length(Tabela.n))-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
         (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))+(sum(Tabela.Variância*(first(unique(Tabela.n))-1))/
         (length(Tabela.n)*(first(unique(Tabela.n))-1))/M)))
-        round(int_finita)
+        round(Finita)
     end
     (((N-length(Tabela.n))/N)*((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
     (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
     (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/length(Tabela.n))+((M-first(unique(Tabela.n)))/M)*
     (sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1))/
-    (length(Tabela.n)*first(unique(Tabela.n))))) #Variância da média
+    (length(Tabela.n)*first(unique(Tabela.n)))))/Conversor #Variância da média
     sqrt((((N-length(Tabela.n))/N)*((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
     (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
     (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/length(Tabela.n))+
@@ -146,7 +142,7 @@ function Dois_estagios(Dados) #Determina a função
     "Limite superior do intervalo de confiança para o total (m³)", "Área da população (ha)", "Erro da amostragem relativo (%)", 
     "Erro da amostragem absoluto (m³/ha)", "Erro padrão (m³/ha)", "Variância dentro das unidades (m³/ha)²", "Variância entre unidades (m³/ha)²", 
     "Estimativa da Variância (m³/ha)²", "Variância da média da população (m³/ha)²", "Limite do erro de amostragem requerido", 
-    "Fração da amostragem", "População", "Intensidade", "Número total de unidades secundárias por unidade primária", "Número total de unidades primárias da população", 
+    "Fator de correção", "População", "Tamanho da amostra", "Número total de unidades secundárias por unidade primária", "Número potencial de unidades primárias", 
     "Número de unidades primárias", "Número de unidades secundárias", "Nível de significância (α)", "Observação"], Valores=[(sum(Tabela.Média)/length(Tabela.n)), 
     ((sum(Tabela.Média)/length(Tabela.n))-quantile(TDist(length(Tabela.n)-1),1-alpha/2)*sqrt((((N-length(Tabela.n))/N)*
     ((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
@@ -190,21 +186,22 @@ function Dois_estagios(Dados) #Determina a função
     (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/length(Tabela.n))+
     ((M-first(unique(Tabela.n)))/M)*(sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
     (first(unique(Tabela.n))-1))/(length(Tabela.n)*first(unique(Tabela.n)))))), 
-    sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1)), 
+    sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1))/Conversor, 
     (sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
     (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
-    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n)), ((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
+    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/Conversor, (((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
     (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
-    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))+sum(Tabela.Variância*(first(unique(Tabela.n))-1))/
-    (length(Tabela.n)*(first(unique(Tabela.n))-1))), (((N-length(Tabela.n))/N)*((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
+    (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/Conversor)+
+    (sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1))/Conversor)), 
+    (((N-length(Tabela.n))/N)*((sum(first(unique(Tabela.n))*(Tabela.Média.-(sum(Tabela.Média)/length(Tabela.n))).^2)/
     (length(Tabela.n)-1)-sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*
     (first(unique(Tabela.n))-1)))/first(unique(Tabela.n))/length(Tabela.n))+((M-first(unique(Tabela.n)))/M)*
     (sum(Tabela.Variância*(first(unique(Tabela.n))-1))/(length(Tabela.n)*(first(unique(Tabela.n))-1))/
-    (length(Tabela.n)*first(unique(Tabela.n))))), (0.1*(sum(Tabela.Média)/length(Tabela.n))), 1-(length(Tabela.n)/N), População, Intensidade,  
+    (length(Tabela.n)*first(unique(Tabela.n)))))/Conversor, (0.1*(sum(Tabela.Média)/length(Tabela.n))), 1-(length(Tabela.n)/N), População, Tamanho_da_amostra,  
     M, N, length(Tabela.n), first(unique(Tabela.n)), alpha, Observação]) #Tabela de resultados  
-    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/04.xlsx"), Dados=(collect(DataFrames.eachcol(Dados)), DataFrames.names(Dados)), 
-        Analise_descritiva=(collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)), 
-        Resultados=(collect(DataFrames.eachcol(Resultados)), DataFrames.names(Resultados))) #Exportar para o Excel     
+    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/04.xlsx"), Dados=(collect(DataFrames.eachcol(Dados)), 
+    DataFrames.names(Dados)), Analise_descritiva=(collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)), 
+    Resultados=(collect(DataFrames.eachcol(Resultados)), DataFrames.names(Resultados))) #Exportar para o Excel     
 end
 _________________________________________________________________________________________________________________________________________
 
