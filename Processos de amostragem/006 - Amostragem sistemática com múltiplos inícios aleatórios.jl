@@ -1,5 +1,3 @@
-#Linguagem Julia verson v.1.5.3
-#Modificado: 17/12/2021
 #Inventário Florestal🌳
 #Amostragem sistemática com múltiplos inícios aleátorios
 _________________________________________________________________________________________________________________________________________
@@ -16,16 +14,16 @@ function Multiplos_inicios_aleatorios(Dados) #Determina a função
     length(Tabela.n) #Número de conglomerados
     first((first(unique((Tabela.n))))) #Número de subunidades
     sum(Tabela.Média)/(length(Tabela.n)) #Média
-    sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))
-    sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)) #Variância dentro dos conglomerados
-    sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/((length(Tabela.n))-1)
+    sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))/Conversor
+    sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))/Conversor #Variância dentro dos conglomerados
+    sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/((length(Tabela.n))-1)/Conversor
     ((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))) #Variância entre conglomerados
-    (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))+
-    (((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
+    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))/Conversor #Variância entre conglomerados
+    ((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))/Conversor)+
+    ((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))) #Variância total
+    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/Conversor) #Variância total
     (((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/
@@ -48,14 +46,13 @@ function Multiplos_inicios_aleatorios(Dados) #Determina a função
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./
     ((first(unique((Tabela.n))))))+(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1)))))*(((first(unique((Tabela.n))))).-1)) #Fração da amostragem 
-    (((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))+
-    (((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
+    (((first(unique((Tabela.n))))).-1)))))*(((first(unique((Tabela.n))))).-1)) #Tamanho da amostra 
+    ((((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))/Conversor)+
+    ((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))))./((length(Tabela.n))*
+    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/Conversor))./((length(Tabela.n))*
     ((first(unique((Tabela.n)))))))*(1 .+((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/
-    (length(Tabela.n)))).^2)/
-    ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
+    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/
     ((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
@@ -205,11 +202,11 @@ function Multiplos_inicios_aleatorios(Dados) #Determina a função
                 O erro estimado foi menor que o limite fixado, assim as unidades amostrais são suficientes para o inventário."
                 println(Observação)
     end
-    Resultados = DataFrames.DataFrame(Variaiáveis=["Média (m³/ha)", "Limite inferior do intervalo de confiança para média (m³/ha)", 
+    Resultados = DataFrames.DataFrame(Variáveis=["Média (m³/ha)", "Limite inferior do intervalo de confiança para média (m³/ha)", 
     "Limite superior do intervalo de confiança para média (m³/ha)", "Total da população (m³)", "Limite inferior do intervalo de confiança para o total (m³)", 
     "Limite superior do intervalo de confiança para o total (m³)", "Área da população (ha)", "Erro da amostragem relativo (%)", "Erro da amostragem absoluto (m³/ha)", 
     "Erro padrão (m³/ha)", "Variância dentro dos conglomerados (m³/ha)²", "Variância entre conglomerados (m³/ha)²", "Variância total (m³/ha)²", "Variância da média (m³/ha)²", 
-    "Coeficiente de correlação intraconglomerados", "Fração da amostragem", "Limite do erro de amostragem requerido", "Número de conglomerados", 
+    "Coeficiente de correlação intraconglomerados", "Tamanho da amostra", "Limite do erro de amostragem requerido", "Número de conglomerados", 
     "Número de subunidades", "Nível de significância (α)", "Observação"], 
     Valores=[sum(Tabela.Média)/(length(Tabela.n)), ((sum(Tabela.Média)/(length(Tabela.n))).-((quantile(TDist((length(Tabela.n))-1),1-alpha/2))*
     (sqrt.((((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))+
@@ -268,15 +265,13 @@ function Multiplos_inicios_aleatorios(Dados) #Determina a função
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/
     ((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))+
     (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1)))))*
-    (((first(unique((Tabela.n))))).-1)))))))/Conversor), area, (((quantile(TDist((length(Tabela.n))-1),1-alpha/2))*(sqrt.((((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1)))+(((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/
-    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-
-    (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
+    (((first(unique((Tabela.n))))).-1)))))*(((first(unique((Tabela.n))))).-1)))))))/Conversor), 
+    area, (((quantile(TDist((length(Tabela.n))-1),1-alpha/2))*(sqrt.((((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/
+    ((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))+(((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/
+    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))))./((length(Tabela.n))*
     ((first(unique((Tabela.n)))))))*(1 .+((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/
-    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-
-    (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
+    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/
     ((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/
@@ -284,41 +279,37 @@ function Multiplos_inicios_aleatorios(Dados) #Determina a função
     (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))))*
     (((first(unique((Tabela.n))))).-1)))))/(sum(Tabela.Média)/(length(Tabela.n))))*100, (quantile(TDist((length(Tabela.n))-1),1-alpha/2))*(sqrt.((((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1)))+(((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/
-    (length(Tabela.n)))).^2)/
-    ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
+    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))))./((length(Tabela.n))*
     ((first(unique((Tabela.n)))))))*(1 .+((((sum(((first(unique((Tabela.n))))).*
     (Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-
     (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))))./
-    ((first(unique((Tabela.n))))))/((((sum(((first(unique((Tabela.n))))).*
-    (Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-
-    (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))))./
+    ((first(unique((Tabela.n))))))/((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
+    ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))))./
     ((first(unique((Tabela.n))))))+(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1)))))*(((first(unique((Tabela.n))))).-1)))), sqrt.((((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))+
     (((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))))./((length(Tabela.n))*
     ((first(unique((Tabela.n)))))))*(1 .+((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/
-    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-
-    (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))))./
-    ((first(unique((Tabela.n))))))/((((sum(((first(unique((Tabela.n))))).*
+    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
+    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/((((sum(((first(unique((Tabela.n))))).*
     (Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))+
     (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))))*
-    (((first(unique((Tabela.n))))).-1))), sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)), 
+    (((first(unique((Tabela.n))))).-1))), sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1))/Conversor, 
     ((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))), (sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))+
-    (((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
+    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))/Conversor, ((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))/Conversor)+
+    ((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))), (((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))+
-    (((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
+    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/Conversor), ((((sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*(((first(unique((Tabela.n))))).-1)))/Conversor)+
+    ((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
-    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n)))))))./((length(Tabela.n))*
+    (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/Conversor))./((length(Tabela.n))*
     ((first(unique((Tabela.n)))))))*(1 .+((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/
-    (length(Tabela.n)))).^2)/
-    ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
+    (length(Tabela.n)))).^2)/((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1))))./((first(unique((Tabela.n))))))/
     ((((sum(((first(unique((Tabela.n))))).*(Tabela.Média.-(sum(Tabela.Média)/(length(Tabela.n)))).^2)/
     ((length(Tabela.n))-1)).-(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
@@ -344,11 +335,11 @@ function Multiplos_inicios_aleatorios(Dados) #Determina a função
     (((first(unique((Tabela.n))))).-1))))./
     ((first(unique((Tabela.n))))))+(sum(Tabela.Variância.*(((first(unique((Tabela.n))))).-1))/((length(Tabela.n))*
     (((first(unique((Tabela.n))))).-1)))))*(((first(unique((Tabela.n))))).-1)), (0.1*(sum(Tabela.Média)/(length(Tabela.n)))), 
-    length(Tabela.n), first((first(unique((Tabela.n))))), alpha, Observação]) #Tabela de resultados        
-    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/06.xlsx"), 
-        Dados=(collect(DataFrames.eachcol(Dados)), DataFrames.names(Dados)), 
-        Analise_descritiva=(collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)), 
-        Resultados=(collect(DataFrames.eachcol(Resultados)), DataFrames.names(Resultados))) #Exportar para o Excel 
+    length(Tabela.n), first((first(unique((Tabela.n))))), alpha, Observação]) #Tabela de resultados    
+    XLSX.writetable(("F:/Version_09_07_21/iflorestal.jl/06.xlsx"),
+    Dados=(collect(DataFrames.eachcol(Dados)), DataFrames.names(Dados)),     
+    Analise_descritiva=(collect(DataFrames.eachcol(Tabela)), DataFrames.names(Tabela)),  
+    Resultados=(collect(DataFrames.eachcol(Resultados)), DataFrames.names(Resultados))) #Exportar para o Excel 
 end
 _________________________________________________________________________________________________________________________________________
 
