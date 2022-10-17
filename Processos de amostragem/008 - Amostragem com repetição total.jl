@@ -214,7 +214,7 @@ ________________________________________________________________________________
 
 #Processamento do inventário
 #Importar dados
-Dados = CSV.read("F:/Version_09_07_21/ART.csv", DataFrame) 
+Dados = CSV.read("F:/Version_09_07_21/art.csv", DataFrame) 
 #Informações necessárias
 #Área da população na primeira ocasião
 const N1 =1500
