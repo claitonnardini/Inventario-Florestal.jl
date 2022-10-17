@@ -345,7 +345,7 @@ ________________________________________________________________________________
 
 #Processamento do inventário
 #Importar dados
-Dados = CSV.read("F:/Version_09_07_21/mult_inic_alea.csv", DataFrame) 
+Dados = CSV.read("F:/Version_09_07_21/mult.csv", DataFrame) 
 #Informações necessárias
 #Área da população
 const  area = 13000
